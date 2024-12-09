@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  nginx:
+    build:
+      context: ./requirements/nginx  # Dockerfile'ın bulunduğu doğru dizin
+    container_name: nginx-ssl-container
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./requirements/nginx/nginx-ssl:/etc/nginx/ssl:ro     # SSL sertifikalarını bağla
+      - ./requirements/nginx/conf:/etc/nginx/conf.d:ro # NGINX yapılandırma dosyasını bağla
+      - ./requirements/nginx/html:/usr/share/nginx/html:ro # HTML dosyasını bağla
+    networks:
+      - frontend
+    restart: unless-stopped
+
+networks:
+  frontend:
+    driver: bridge
