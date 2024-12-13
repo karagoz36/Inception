@@ -1,13 +1,34 @@
-#FROM debian:buster
+FROM debian:bullseye-slim
 
-# 1. Debian tabanlı NGINX imajını temel alıyoruz
-FROM nginx:stable
+RUN apt-get update -y && \
+    apt-get upgrade -y && \
+    apt-get install -y nginx openssl curl procps && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# 2. HTML dosyalarını ve NGINX yapılandırmasını kopyalıyoruz
+RUN mkdir -p /var/www/html && \
+    chmod -R 755 /var/www/html && \
+    chown -R www-data:www-data /var/www/html
 
-COPY nginx-ssl /etc/nginx/ssl
-COPY html /usr/share/nginx/html
-COPY conf/default.conf /etc/nginx/conf.d/
+RUN mkdir -p /etc/nginx/ssl && \
+    openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+    -keyout /etc/nginx/ssl/server.key \
+    -out /etc/nginx/ssl/server.crt \
+    -subj "/CN=tkaragoz.42.fr"
+    # -subj "/CN=localhost"
 
-# 3. NGINX çalıştırma komutu
+
+COPY ./conf/nginx.conf /etc/nginx/nginx.conf
+COPY ./tools/startup.sh /usr/local/bin/
+#COPY html /usr/share/nginx/html
+
+RUN chmod +x /usr/local/bin/startup.sh
+
+WORKDIR /var/www/html
+
+EXPOSE 443 
+#80
+
+ENTRYPOINT ["/usr/local/bin/startup.sh"]
 CMD ["nginx", "-g", "daemon off;"]
+
+

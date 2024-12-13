@@ -1,36 +1,36 @@
 services:
-  mariadb:
-    build:
-      context: ./requirements/mariadb
-      dockerfile: Dockerfile
-    container_name: mariadb
-    env_file: .env
-    networks:
-      - inception-network
-    volumes:
-      - mariadb_data:/var/lib/mysql
-    pull_policy: never
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${MYSQL_ROOT_PASSWORD}"]
-      interval: 15s
-      timeout: 5s
-      retries: 5
+  # mariadb:
+  #   build:
+  #     context: ./requirements/mariadb
+  #     dockerfile: Dockerfile
+  #   container_name: mariadb
+  #   env_file: .env
+  #   networks:
+  #     - inception-network
+  #   volumes:
+  #     - mariadb_data:/var/lib/mysql
+  #   pull_policy: never
+  #   restart: unless-stopped
+  #   healthcheck:
+  #     test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${MYSQL_ROOT_PASSWORD}"]
+  #     interval: 15s
+  #     timeout: 5s
+  #     retries: 5
 
-  wordpress:
-    build:
-      context: ./requirements/wordpress
-      dockerfile: Dockerfile
-    container_name: wordpress
-    env_file: .env
-    networks:
-      - inception-network
-    volumes:
-      - wordpress_data:/var/www/html
-    depends_on:
-      - mariadb
-    pull_policy: never
-    restart: unless-stopped
+  # wordpress:
+  #   build:
+  #     context: ./requirements/wordpress
+  #     dockerfile: Dockerfile
+  #   container_name: wordpress
+  #   env_file: .env
+  #   networks:
+  #     - inception-network
+  #   volumes:
+  #     - wordpress_data:/var/www/html
+  #   depends_on:
+  #     - mariadb
+  #   pull_policy: never
+  #   restart: unless-stopped
 
   nginx:
     build:
@@ -42,10 +42,10 @@ services:
     networks:
       - inception-network
     volumes:
-      - wordpress_data:/var/www/html
+      # - wordpress_data:/var/www/html
       - ./requirements/nginx/conf:/etc/nginx/conf.d
-    depends_on:
-      - wordpress
+    # depends_on:
+    #   - wordpress
     pull_policy: never
     restart: unless-stopped
 
@@ -53,17 +53,17 @@ networks:
   inception-network:
     driver: bridge
   
-volumes:
-  wordpress_data:
-    driver: local
-    driver_opts:
-      type: none
-      device: ${HOME}/data/wordpress_data
-      o: bind
+# volumes:
+#   wordpress_data:
+#     driver: local
+#     driver_opts:
+#       type: none
+#       device: ${HOME}/data/wordpress_data
+#       o: bind
   
-  mariadb_data:
-    driver: local
-    driver_opts:
-      type: none
-      device: ${HOME}/data/mariadb_data
-      o: bind
+#   mariadb_data:
+#     driver: local
+#     driver_opts:
+#       type: none
+#       device: ${HOME}/data/mariadb_data
+#       o: bind

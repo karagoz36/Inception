@@ -1,7 +1,6 @@
 # Makefile for Inception - Docker Compose
 
 COMPOSE_FILE = ./srcs/docker-compose.yml
-PROJECT_NAME = inception
 DATA_DIR = ${HOME}/data
 MARIADB_DATA_DIR = $(DATA_DIR)/mariadb_data
 WORDPRESS_DATA_DIR = $(DATA_DIR)/wordpress_data
@@ -37,8 +36,8 @@ status:
 
 # Remove containers, volumes, and networks
 clean:
-	docker compose -f $(COMPOSE_FILE) down --volumes --remove-orphans
-	rm -rf $(MARIADB_DATA_DIR) $(WORDPRESS_DATA_DIR)
+  docker compose -f $(COMPOSE_FILE) down --volumes --remove-orphans
+  @read -p "Are you sure you want to delete data directories? [y/N] " confirm && [ $${confirm} = "y" ] && rm -rf $(MARIADB_DATA_DIR) $(WORDPRESS_DATA_DIR) || echo "Aborted."
 	
 # Default command: show help
 help:
