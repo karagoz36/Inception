@@ -21,6 +21,10 @@ down:
 start:
 	docker compose -f $(COMPOSE_FILE) start
 
+# Stop Docker Compose services
+stop:
+	docker compose -f $(COMPOSE_FILE) stop
+
 # Restart Docker Compose services
 restart:
 	$(MAKE) down
@@ -36,8 +40,8 @@ status:
 
 # Remove containers, volumes, and networks
 clean:
-  docker compose -f $(COMPOSE_FILE) down --volumes --remove-orphans
-  @read -p "Are you sure you want to delete data directories? [y/N] " confirm && [ $${confirm} = "y" ] && rm -rf $(MARIADB_DATA_DIR) $(WORDPRESS_DATA_DIR) || echo "Aborted."
+	docker compose -f $(COMPOSE_FILE) down --volumes --remove-orphans
+	@read -p "Are you sure you want to delete data directories? [y/N] " confirm && [ $${confirm} = "y" ] && rm -rf $(MARIADB_DATA_DIR) $(WORDPRESS_DATA_DIR) || echo "Aborted."
 	
 # Default command: show help
 help:
@@ -45,9 +49,10 @@ help:
 	@echo "  make up          - Start the Docker Compose services"
 	@echo "  make down        - Stop and remove the Docker Compose services"
 	@echo "  make start       - Start previously stopped services"
+	@echo "  make stop        - Stop the Docker Compose services"
 	@echo "  make restart     - Restart the Docker Compose services"
 	@echo "  make logs        - Show logs for all services"
 	@echo "  make status      - Show the status of services"
 	@echo "  make clean       - Remove all containers, volumes, and networks"
 
-.PHONY: help all up down start restart logs status clean
+.PHONY: help all up down start stop restart logs status clean

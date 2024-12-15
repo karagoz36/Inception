@@ -14,21 +14,19 @@ RUN mkdir -p /etc/nginx/ssl && \
     -keyout /etc/nginx/ssl/server.key \
     -out /etc/nginx/ssl/server.crt \
     -subj "/CN=tkaragoz.42.fr"
-    # -subj "/CN=localhost"
 
 
 COPY ./conf/nginx.conf /etc/nginx/nginx.conf
-COPY ./tools/startup.sh /usr/local/bin/
-#COPY html /usr/share/nginx/html
+# COPY ./tools/startup.sh /usr/local/bin/
+COPY ./html/index.html /var/www/html/
 
-RUN chmod +x /usr/local/bin/startup.sh
+# RUN chmod +x /usr/local/bin/startup.sh
 
 WORKDIR /var/www/html
 
 EXPOSE 443 
-#80
 
-ENTRYPOINT ["/usr/local/bin/startup.sh"]
+#ENTRYPOINT ["/usr/local/bin/startup.sh"]
 CMD ["nginx", "-g", "daemon off;"]
 
 
