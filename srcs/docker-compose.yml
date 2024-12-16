@@ -1,21 +1,21 @@
 services:
-  # mariadb:
-  #   build:
-  #     context: ./requirements/mariadb
-  #     dockerfile: Dockerfile
-  #   container_name: mariadb
-  #   env_file: .env
-  #   networks:
-  #     - inception-network
-  #   volumes:
-  #     - mariadb_data:/var/lib/mysql
-  #   pull_policy: never
-  #   restart: unless-stopped
-  #   healthcheck:
-  #     test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${MYSQL_ROOT_PASSWORD}"]
-  #     interval: 15s
-  #     timeout: 5s
-  #     retries: 5
+  mariadb:
+    build:
+      context: ./requirements/mariadb
+      dockerfile: Dockerfile
+    container_name: mariadb
+    env_file: .env
+    networks:
+      - inception-network
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    pull_policy: never
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
 
   # wordpress:
   #   build:
@@ -53,7 +53,7 @@ networks:
   inception-network:
     driver: bridge
   
-# volumes:
+volumes:
 #   wordpress_data:
 #     driver: local
 #     driver_opts:
@@ -61,9 +61,9 @@ networks:
 #       device: ${HOME}/data/wordpress_data
 #       o: bind
   
-#   mariadb_data:
-#     driver: local
-#     driver_opts:
-#       type: none
-#       device: ${HOME}/data/mariadb_data
-#       o: bind
+  mariadb_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${HOME}/data/mariadb_data
+      o: bind
