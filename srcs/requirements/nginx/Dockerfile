@@ -17,16 +17,13 @@ RUN mkdir -p /etc/nginx/ssl && \
 
 
 COPY ./conf/nginx.conf /etc/nginx/nginx.conf
-# COPY ./tools/startup.sh /usr/local/bin/
 COPY ./html/index.html /var/www/html/
 
-# RUN chmod +x /usr/local/bin/startup.sh
 
 WORKDIR /var/www/html
 
 EXPOSE 443 
 
-#ENTRYPOINT ["/usr/local/bin/startup.sh"]
 CMD ["nginx", "-g", "daemon off;"]
 
 

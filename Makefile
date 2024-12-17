@@ -41,7 +41,7 @@ status:
 # Remove containers, volumes, and networks
 clean:
 	docker compose -f $(COMPOSE_FILE) down --volumes --remove-orphans
-	@read -p "Are you sure you want to delete data directories? [y/N] " confirm && [ $${confirm} = "y" ] && rm -rf $(MARIADB_DATA_DIR) $(WORDPRESS_DATA_DIR) || echo "Aborted."
+	@read -p "Are you sure you want to delete data directories? [y/N] " confirm && [ $${confirm} = "y" ] && sudo rm -rf $(MARIADB_DATA_DIR) $(WORDPRESS_DATA_DIR) || echo "Aborted."
 	
 # Default command: show help
 help:
