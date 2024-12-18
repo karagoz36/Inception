@@ -15,15 +15,11 @@ RUN mkdir -p /etc/nginx/ssl && \
     -out /etc/nginx/ssl/server.crt \
     -subj "/CN=tkaragoz.42.fr"
 
-
 COPY ./conf/nginx.conf /etc/nginx/nginx.conf
-COPY ./html/index.html /var/www/html/
-
+# COPY ./html/index.html /var/www/html/
 
 WORKDIR /var/www/html
 
 EXPOSE 443 
 
 CMD ["nginx", "-g", "daemon off;"]
-
-
