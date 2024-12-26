@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ ! -d "/var/lib/mysql/mysql"]; then
+if [ ! -d "/var/lib/mysql/mysql" ]; then
 	echo "Initializing MariaDB..."
 	mysql_install_db --user=mysql --datadir=/var/lib/mysql
 fi
@@ -12,7 +12,7 @@ until mysqladmin ping -uroot -p"${MYSQL_ROOT_PASSWORD}" --silent; do
 	sleep 1
 done
 
-if [ ! -d "/var/lib/mysql/$MYSQL_DATABASE" ]; then
+if [ ! -d "/var/lib/mysql/${MYSQL_DATABASE}" ]; then
 	echo "Setting up MariaDB..."
 	mysql -uroot <<END
 	ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';
@@ -20,6 +20,7 @@ if [ ! -d "/var/lib/mysql/$MYSQL_DATABASE" ]; then
 	CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE};
 	CREATE USER IF NOT EXISTS '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';
 	GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'%';
+	FLUSH PRIVILEGES;
 END
 fi
 

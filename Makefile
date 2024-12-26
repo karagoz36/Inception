@@ -38,6 +38,14 @@ logs:
 status:
 	docker compose -f $(COMPOSE_FILE) ps
 
+# Show running processes in all services
+ps:
+	@for service in wordpress mariadb nginx; do \
+	  echo "Processes in $$service:"; \
+	  docker compose -f $(COMPOSE_FILE) exec $$service ps aux; \
+	  echo "---------------------------------"; \
+	done
+
 # Remove containers, volumes, and networks
 clean:
 	docker compose -f $(COMPOSE_FILE) down --volumes --remove-orphans
@@ -53,6 +61,7 @@ help:
 	@echo "  make restart     - Restart the Docker Compose services"
 	@echo "  make logs        - Show logs for all services"
 	@echo "  make status      - Show the status of services"
+	@echo "  make ps          - Show running processes in all services"
 	@echo "  make clean       - Remove all containers, volumes, and networks"
 
-.PHONY: help all up down start stop restart logs status clean
+.PHONY: help all up down start stop restart logs status ps clean
