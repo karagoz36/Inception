@@ -1,39 +1,36 @@
-FROM debian:bullseye
+FROM debian:bullseye-slim
 
-# Install only necessary packages
+# Install required packages
 RUN apt-get update -y && apt-get install -y \
-		wget \
-		curl \
-		php7.4 \
-		php7.4-mysql \
-		php7.4-fpm \
-		default-mysql-client && \
-	apt-get clean && rm -rf /var/lib/apt/lists/*
+    php php-fpm php-mysql wget curl unzip mariadb-client && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install wp-cli command
+# Install WP-CLI
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
-	chmod +x wp-cli.phar && \
-	mv wp-cli.phar /usr/local/bin/wp
+    chmod +x wp-cli.phar && \
+    mv wp-cli.phar /usr/local/bin/wp
 
-# Copy PHP-FPM configuration
-COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d/
+# Create necessary directories and set permissions
+RUN mkdir -p /run/php && \
+    chmod -R 755 /run/php
 
-# Copy startup script
-COPY ./tools/startup.sh /usr/local/bin/startup.sh
-RUN chmod +x /usr/local/bin/startup.sh
+# Download and set up WordPress
+WORKDIR /var/www/html
+RUN wget https://wordpress.org/latest.tar.gz && \
+    tar -xzvf latest.tar.gz --strip-components=1 && \
+    rm latest.tar.gz
 
-# Set working directory and permissions
-RUN mkdir -p /var/www/html && \
-	chmod -R 755 /var/www/html && \
-	chown -R www-data:www-data /var/www/html
+# Copy configuration files
+COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
+COPY ./tools/wordpress.sh /usr/local/bin/wordpress.sh
 
-WORKDIR /var/www/html/
+# Make wordpress script executable
+RUN chmod +x /usr/local/bin/wordpress.sh
 
-# Expose PHP-FPM port
+# Expose the PHP-FPM port
 EXPOSE 9000
 
-# Use startup script as entry point
-ENTRYPOINT ["/usr/local/bin/startup.sh"]
+# Start PHP-FPM via the wordpress script
+ENTRYPOINT [ "/usr/local/bin/wordpress.sh" ]
 
-# Run PHP-FPM in the foreground
 CMD ["php-fpm7.4", "-F"]

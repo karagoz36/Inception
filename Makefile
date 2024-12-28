@@ -46,6 +46,10 @@ ps:
 	  echo "---------------------------------"; \
 	done
 
+# Generate output file with tree and file contents
+out:
+	@bash -c '{ tree; find . \( -name "*.yml" -o -name "*.sh" -o -name "*.conf" -o -name "Dockerfile" \) -type f -exec echo "=== {} ===" \; -exec cat {} \;; } > output.txt'
+
 # Remove containers, volumes, and networks
 clean:
 	docker compose -f $(COMPOSE_FILE) down --volumes --remove-orphans
@@ -62,6 +66,7 @@ help:
 	@echo "  make logs        - Show logs for all services"
 	@echo "  make status      - Show the status of services"
 	@echo "  make ps          - Show running processes in all services"
+	@echo "  make out         - Generate output.txt with tree and file contents"
 	@echo "  make clean       - Remove all containers, volumes, and networks"
 
-.PHONY: help all up down start stop restart logs status ps clean
+.PHONY: help all up down start stop restart logs status ps out clean
