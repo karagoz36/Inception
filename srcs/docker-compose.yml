@@ -29,6 +29,7 @@ services:
       - wordpress_data:/var/www/html
     depends_on:
       - mariadb
+      - redis
     pull_policy: never
     restart: unless-stopped
 
@@ -43,12 +44,24 @@ services:
       - inception-network
     volumes:
       - wordpress_data:/var/www/html
-      # - ./requirements/nginx/html:/var/www/html
-      # - ./requirements/nginx/conf:/etc/nginx/conf.d
     depends_on:
       - wordpress
     pull_policy: never
     restart: unless-stopped
+
+  #bonus
+
+  redis:
+    build:
+      context: ./bonus/redis
+      dockerfile: Dockerfile
+    container_name: redis
+    env_file: .env
+    networks:
+      - inception-network
+    pull_policy: never
+    restart: unless-stopped
+
 
 networks:
   inception-network:

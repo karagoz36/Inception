@@ -38,6 +38,19 @@ if [ ! -f /var/www/html/wp-config.php ]; then
 
 fi
 
+# WordPress Redis Configuration
+wp config set WP_CACHE true --raw --allow-root
+wp config set WP_DEBUG true --raw --allow-root
+wp config set WP_DEBUG_LOG true --raw --allow-root
+wp config set WP_REDIS_HOST redis --allow-root
+wp config set WP_REDIS_PORT 6379 --allow-root
+
+#Activate Redis
+if ! wp plugin is-installed redis-cache --allow-root; then
+    wp plugin install redis-cache --activate --allow-root
+    wp redis enable --allow-root
+fi
+
 chown -R www-data:www-data ./wp-content
 chmod -R 755 ./wp-content
 

@@ -40,7 +40,7 @@ status:
 
 # Show running processes in all services
 ps:
-	@for service in wordpress mariadb nginx; do \
+	@for service in wordpress mariadb nginx redis; do \
 	  echo "Processes in $$service:"; \
 	  docker compose -f $(COMPOSE_FILE) exec $$service ps aux; \
 	  echo "---------------------------------"; \

@@ -5,6 +5,12 @@ RUN apt-get update -y && apt-get install -y \
     php php-fpm php-mysql wget curl unzip mariadb-client && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
+# Install Redis PHP
+RUN apt-get update && apt-get install -y \
+    redis \
+    php-redis && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
 # Install WP-CLI
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
     chmod +x wp-cli.phar && \
