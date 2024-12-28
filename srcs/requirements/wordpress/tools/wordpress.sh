@@ -13,7 +13,6 @@ if [ ! -f /var/www/html/wp-config.php ]; then
     # Set up WordPress configuration
     wp core config \
         --allow-root \
-        --path=/var/www/html \
         --dbname="${MYSQL_DATABASE}" \
         --dbuser="${MYSQL_USER}" \
         --dbpass="${MYSQL_PASSWORD}" \
@@ -22,7 +21,6 @@ if [ ! -f /var/www/html/wp-config.php ]; then
     # Install WordPress
     wp core install \
         --allow-root \
-        --path=/var/www/html \
         --url="${WP_SITE_URL}" \
         --title="${WP_SITE_TITLE}" \
         --admin_user="${WP_ADMIN_USERNAME}" \
@@ -32,7 +30,6 @@ if [ ! -f /var/www/html/wp-config.php ]; then
     # Add a regular user
     wp user create \
         --allow-root \
-        --path=/var/www/html \
         "${WP_USER_USERNAME}" "${WP_USER_EMAIL}" \
         --role=editor \
         --user_pass="${WP_USER_PASSWORD}"
