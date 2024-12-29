@@ -46,6 +46,7 @@ services:
       - wordpress_data:/var/www/html
     depends_on:
       - wordpress
+      - static-website
     pull_policy: never
     restart: unless-stopped
 
@@ -61,6 +62,16 @@ services:
       - inception-network
     pull_policy: never
     restart: unless-stopped
+
+  static-website:
+    build:
+      context: ./bonus/static-website
+      dockerfile: Dockerfile
+    container_name: static-website
+    networks:
+      - inception-network
+    pull_policy: never
+    restart: on-failure:2
 
 
 networks:

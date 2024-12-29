@@ -1,0 +1,12 @@
+{
+    "name": "weather-website",
+    "version": "1.0.0",
+    "description": "A simple static weather website",
+    "main": "index.js",
+    "scripts": {
+        "build": "echo 'Building the static weather website...'",
+        "start": "echo 'Starting the static weather website...'"
+    },
+    "author": "tkaragoz",
+    "license": "ISC"
+}
