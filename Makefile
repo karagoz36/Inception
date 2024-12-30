@@ -4,6 +4,8 @@ COMPOSE_FILE = ./srcs/docker-compose.yml
 DATA_DIR = ${HOME}/data
 MARIADB_DATA_DIR = $(DATA_DIR)/mariadb_data
 WORDPRESS_DATA_DIR = $(DATA_DIR)/wordpress_data
+# STATIC_DATA_DIR = $(DATA_DIR)/static_data
+
 
 all: up
 
@@ -11,6 +13,7 @@ all: up
 up:
 	mkdir -p $(MARIADB_DATA_DIR)
 	mkdir -p $(WORDPRESS_DATA_DIR)
+	# mkdir -p $(STATIC_DATA_DIR)
 	docker compose -f $(COMPOSE_FILE) up -d --build
 
 # Stop and remove Docker Compose services

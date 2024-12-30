@@ -3,35 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather - Paris, Istanbul, London</title>
+    <title>Recipe Book</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
     <header>
-        <h1>Weather Information</h1>
-        <nav>
-            <a href="#paris">Paris</a>
-            <a href="#istanbul">Istanbul</a>
-            <a href="#london">London</a>
-        </nav>
+        <h1>Recipe Book</h1>
     </header>
     <main>
-        <section id="paris">
-            <h2>Paris</h2>
-            <p>Loading weather...</p>
+        <section class="gallery">
+            <div class="recipe-item">
+                <img src="images/recipe1.jpg" alt="Spaghetti">
+                <p>Spaghetti Bolognese</p>
+                <button onclick="showRecipe(1)">Cook it!</button>
+            </div>
+            <div class="recipe-item">
+                <img src="images/recipe2.jpg" alt="Pancakes">
+                <p>Classic Pancakes</p>
+                <button onclick="showRecipe(2)">Cook it!</button>
+            </div>
+            <div class="recipe-item">
+                <img src="images/recipe3.jpg" alt="Salad">
+                <p>Fresh Garden Salad</p>
+                <button onclick="showRecipe(3)">Cook it!</button>
+            </div>
         </section>
-        <section id="istanbul">
-            <h2>Istanbul</h2>
-            <p>Loading weather...</p>
-        </section>
-        <section id="london">
-            <h2>London</h2>
-            <p>Loading weather...</p>
-        </section>
+        <section id="recipe-display" class="recipe-display"></section>
     </main>
     <footer>
-        <p>&copy; 2024 Weather Static Website</p>
+        <p>&copy; 2024 Recipe Book</p>
     </footer>
-    <script src="weather.js"></script>
 </body>
 </html>

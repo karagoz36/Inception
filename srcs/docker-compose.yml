@@ -30,6 +30,7 @@ services:
     depends_on:
       - mariadb
       - redis
+      - static-website
     pull_policy: never
     restart: unless-stopped
 
@@ -46,7 +47,7 @@ services:
       - wordpress_data:/var/www/html
     depends_on:
       - wordpress
-      - static-website
+      # - static-website
     pull_policy: never
     restart: unless-stopped
 
@@ -70,6 +71,8 @@ services:
     container_name: static-website
     networks:
       - inception-network
+    volumes:
+      - wordpress_data:/var/www/html
     pull_policy: never
     restart: on-failure:2
 
@@ -91,4 +94,11 @@ volumes:
     driver_opts:
       type: none
       device: ${HOME}/data/mariadb_data
+      o: bind
+
+  static_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${HOME}/data/static_data
       o: bind

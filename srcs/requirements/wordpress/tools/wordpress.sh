@@ -6,6 +6,8 @@ until mysqladmin ping -h"${MYSQL_HOSTNAME}" -u"${MYSQL_USER}" -p"${MYSQL_PASSWOR
     sleep 3
 done
 
+wp core download --allow-root
+
 # Check if WordPress is already configured
 if [ ! -f /var/www/html/wp-config.php ]; then
     echo "Configuring WordPress..."

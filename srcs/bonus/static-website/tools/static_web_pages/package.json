@@ -1,12 +1,12 @@
 {
-    "name": "weather-website",
+    "name": "recipe-book",
     "version": "1.0.0",
-    "description": "A simple static weather website",
-    "main": "index.js",
+    "description": "A simple static website project",
+    "main": "index.html",
     "scripts": {
-        "build": "echo 'Building the static weather website...'",
-        "start": "echo 'Starting the static weather website...'"
+      "build": "echo 'Static website build complete.'"
     },
     "author": "tkaragoz",
     "license": "ISC"
-}
+  }
+  
