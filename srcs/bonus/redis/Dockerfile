@@ -14,15 +14,3 @@ ENTRYPOINT [ "/etc/redis/startup.sh" ]
 
 CMD ["redis-server", "--bind", "0.0.0.0", "--port", "6379", "--protected-mode", "no"]
 
-
-# FROM debian:bullseye-slim
-
-# RUN apt update -y && \
-#     apt install -y redis procps && \
-#     rm -rf /var/lib/apt/lists/*
-
-# EXPOSE 6379
-
-# ENTRYPOINT [ "/tmp/startup.sh" ]
-
-# CMD ["redis-server", "--bind", "0.0.0.0", "--port", "6379", "--protected-mode", "no"]
