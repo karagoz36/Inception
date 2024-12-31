@@ -49,7 +49,7 @@ ps:
 
 # Generate output file with tree and file contents
 out:
-	@bash -c '{ tree; find . \( -name "*.yml" -o -name "*.sh" -o -name "*.conf" -o -name "Dockerfile" \) -type f -exec echo "=== {} ===" \; -exec cat {} \;; } > output.txt'
+	@bash -c '{ tree; find . -type f ! -path "*/.*" -and \( -name ".env" -or -not -path "./srcs/bonus/static-website/*" \) -exec echo "=== {} ===" \; -exec cat {} \; ; } >> output.txt'
 
 # Remove containers, volumes, and networks
 clean:
