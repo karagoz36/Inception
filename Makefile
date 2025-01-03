@@ -41,7 +41,7 @@ status:
 
 # Show running processes in all services
 ps:
-	@for service in wordpress mariadb nginx redis adminer; do \
+	@for service in wordpress mariadb nginx redis adminer ftp; do \
 	  echo "Processes in $$service:"; \
 	  docker compose -f $(COMPOSE_FILE) exec $$service ps aux; \
 	  echo "---------------------------------"; \
@@ -49,8 +49,8 @@ ps:
 
 # Generate output file with tree and file contents
 out:
-	@bash -c '{ tree; find . -type f ! -path "*/.*" -and \( -name ".env" -or -not -path "./srcs/bonus/static-website/*" \) -exec echo "=== {} ===" \; -exec cat {} \; ; } >> output.txt'
-
+	@bash -c '{ tree; find . -type f \( -name ".env" -or ! -path "*/.*" \) -and ! -path "./srcs/bonus/static-website/*" -exec echo "=== {} ===" \; -exec cat {} \; ; } > output.txt'
+# @bash -c '{ tree; find . -type f ! -path "*/.*" -and \( -name ".env" -or -not -path "./srcs/bonus/static-website/*" \) -exec echo "=== {} ===" \; -exec cat {} \; ; } >> output.txt'
 # Remove containers, volumes, and networks
 clean:
 	docker compose -f $(COMPOSE_FILE) down --volumes --remove-orphans
