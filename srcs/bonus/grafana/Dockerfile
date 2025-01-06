@@ -27,6 +27,10 @@ RUN apt-get update && \
 # RUN mkdir -p /var/lib/grafana /etc/grafana && \
 #     chown -R grafana:grafana /var/lib/grafana /etc/grafana
 
+# COPY conf/provisioning /etc/grafana/provisioning
+COPY conf/provisioning /usr/share/grafana/conf/provisioning
+
+
 EXPOSE 3000
 
 CMD ["/usr/share/grafana/bin/grafana", \
