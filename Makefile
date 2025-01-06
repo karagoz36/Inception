@@ -4,6 +4,8 @@ COMPOSE_FILE = ./srcs/docker-compose.yml
 DATA_DIR = ${HOME}/data
 MARIADB_DATA_DIR = $(DATA_DIR)/mariadb_data
 WORDPRESS_DATA_DIR = $(DATA_DIR)/wordpress_data
+PROMETHEUS_DATA_DIR = $(DATA_DIR)/prometheus_data
+GRAFANA_DATA_DIR = $(DATA_DIR)/grafana_data
 
 
 all: up
@@ -12,6 +14,8 @@ all: up
 up:
 	mkdir -p $(MARIADB_DATA_DIR)
 	mkdir -p $(WORDPRESS_DATA_DIR)
+	mkdir -p $(PROMETHEUS_DATA_DIR)
+	mkdir -p $(GRAFANA_DATA_DIR)
 	docker compose -f $(COMPOSE_FILE) up -d --build
 
 # Stop and remove Docker Compose services
@@ -41,7 +45,7 @@ status:
 
 # Show running processes in all services
 ps:
-	@for service in wordpress mariadb nginx redis adminer ftp; do \
+	@for service in wordpress mariadb nginx redis adminer ftp prometheus node-exporter grafana; do \
 	  echo "Processes in $$service:"; \
 	  docker compose -f $(COMPOSE_FILE) exec $$service ps aux; \
 	  echo "---------------------------------"; \
@@ -54,7 +58,7 @@ out:
 # Remove containers, volumes, and networks
 clean:
 	docker compose -f $(COMPOSE_FILE) down --volumes --remove-orphans
-	@read -p "Are you sure you want to delete data directories? [y/N] " confirm && [ $${confirm} = "y" ] && sudo rm -rf $(MARIADB_DATA_DIR) $(WORDPRESS_DATA_DIR) || echo "Aborted."
+	@read -p "Are you sure you want to delete data directories? [y/N] " confirm && [ $${confirm} = "y" ] && sudo rm -rf $(MARIADB_DATA_DIR) $(WORDPRESS_DATA_DIR) $(PROMETHEUS_DATA_DIR) $(GRAFANA_DATA_DIR) || echo "Aborted."
 
 # Full clean: Purge all Docker data after confirmation
 fclean:

@@ -89,22 +89,76 @@ services:
       - mariadb
     restart: unless-stopped
 
-  ftp:
-    container_name: ftp
+  # ftp:
+  #   container_name: ftp
+  #   build:
+  #     context: ./bonus/ftp
+  #     dockerfile: Dockerfile
+  #   env_file:
+  #     - .env
+  #   networks:
+  #     - inception-network
+  #   volumes:
+  #     - wordpress_data:/var/www/html
+  #   ports:
+  #     - "21-21:21-21"
+  #     - "20000-20100:20000-20100"
+  #   pull_policy: never
+  #   restart: unless-stopped
+
+  prometheus:
     build:
-      context: ./bonus/ftp
+      context: ./bonus/prometheus
       dockerfile: Dockerfile
-    env_file:
-      - .env
+    container_name: prometheus
     networks:
       - inception-network
     volumes:
-      - wordpress_data:/var/www/html
-    ports:
-      - "21-21:21-21"
-      - "20000-20100:20000-20100"
+      - prometheus_data:/tmp/prometheus
     pull_policy: never
     restart: unless-stopped
+
+  node-exporter:
+    build:
+      context: ./bonus/node-exporter
+      dockerfile: Dockerfile
+    container_name: node-exporter
+    networks:
+      - inception-network
+    # Host metriklerini doğru şekilde okuyabilmek için /proc ve /sys gibi 
+    # mountlar ekleyebilirsiniz (örnek aşağıda):
+    # volumes:
+    #   - /proc:/host/proc:ro
+    #   - /sys:/host/sys:ro
+    # command:
+    #   - '--path.procfs=/host/proc'
+    #   - '--path.sysfs=/host/sys'
+    pull_policy: never
+    restart: unless-stopped
+
+  grafana:
+    build:
+      context: ./bonus/grafana
+      dockerfile: Dockerfile
+    container_name: grafana
+    networks:
+      - inception-network
+    volumes:
+      - grafana_data:/var/lib/grafana
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD}
+      # - GF_SERVER_DOMAIN=grafana.tkaragoz.42.fr
+      # - GF_SERVER_ROOT_URL=https://grafana.tkaragoz.42.fr/
+      # # Self-signed sertifika vs. varsa:
+      # - GF_SECURITY_ALLOW_EMBEDDING=true
+      # - GF_SECURITY_COOKIE_SAMESITE=none
+      # - GF_SERVER_SERVE_FROM_SUB_PATH=true
+    pull_policy: never
 
 
 networks:
@@ -131,4 +185,18 @@ volumes:
     driver_opts:
       type: none
       device: ${HOME}/data/static_data
+      o: bind
+
+  prometheus_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${HOME}/data/prometheus_data
+      o: bind
+
+  grafana_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${HOME}/data/grafana_data
       o: bind
