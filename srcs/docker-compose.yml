@@ -89,12 +89,11 @@ services:
       - mariadb
     restart: unless-stopped
 
-  ftp-server:
-    container_name: ftp-server
+  ftp:
+    container_name: ftp
     build:
       context: ./bonus/ftp
       dockerfile: Dockerfile
-    init: true
     env_file:
       - .env
     networks:
@@ -106,28 +105,6 @@ services:
       - "20000-20100:20000-20100"
     pull_policy: never
     restart: unless-stopped
-
-
-  # ftp:
-  #   build:
-  #     context: ./bonus/ftp
-  #     dockerfile: Dockerfile
-  #     args:
-  #       FTP_USER: ${FTP_USER}        # Build arg olarak FTP_USER ekledik
-  #       FTP_PASSWORD: ${FTP_PASSWORD} # Build arg olarak FTP_PASSWORD ekledik
-  #   container_name: ftp
-  #   env_file: .env
-  #   networks:
-  #     - inception-network
-  #   volumes:
-  #     - wordpress_data:/home/${FTP_USER} # Volume'u dinamik hale getirdik
-  #   ports:
-  #     - "21:21"
-  #     - "21000-21010:21000-21010"
-  #   depends_on:
-  #     - wordpress
-  #   pull_policy: never
-  #   restart: unless-stopped
 
 
 networks:
