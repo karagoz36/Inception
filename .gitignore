@@ -1,3 +1,69 @@
+# ---------------------------
+# Git ile ilgili
+# ---------------------------
+.git
+.gitignore
+
+# ---------------------------
+# Secrets ve Çevresel Değişkenler
+# ---------------------------
 *.env
 /secrets/
+# Eğer secrets klasörünüz başka bir dizinde ise, örneğin srcs/secrets/:
+# srcs/secrets/
+# Tüm .env dosyalarını hariç tutmak için alternatif:
+# **/*.env
+
+# ---------------------------
+# Build ve Çıkış Dosyaları
+# ---------------------------
+/dist/
+/build/
+/out/
+/target/
+*.o
+*.pyc
+*.class
+
+# ---------------------------
+# Node.js ve Diğer Paket Yöneticileri
+# ---------------------------
+**/node_modules/
+/**/node_modules/
+/**/.yarn/
+/**/.pnp/
+/**/.cache/
+
+# ---------------------------
+# Log ve Geçici Dosyalar
+# ---------------------------
+**/*.log
+**/*.tmp
+**/*.swp
+*.swp
+*.swo
+*.swn
+*.bak
+
+# ---------------------------
+# IDE ve Editör Ayarları
+# ---------------------------
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.code-workspace
+
+# ---------------------------
+# OS Spesifik Dosyalar
+# ---------------------------
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+._*
+
+# ---------------------------
+# Diğer Geçici ve Özel Dosyalar
+# ---------------------------
 output.txt

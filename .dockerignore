@@ -2,18 +2,33 @@
 .git
 .gitignore
 
-# Secrets
+# Secrets ve Çevresel Değişkenler
 secrets/
+*.env
 
-# Temporary docs
-*.log
-*.tmp
+# Temporary Dosyalar
+**/*.log
+**/*.tmp
 .DS_Store
-*.swp
+**/*.swp
 
-# Node.js & Python 
-srcs/bonus/node-exporter/node_modules
-srcs/requirements/wordpress/node_modules
+# Node.js & Python
+**/node_modules
 
-# Test
+# IDE ve Editor Settings
+.vscode/
+*.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS Documents
+Thumbs.db
+ehthumbs.db
+
+# Build Outputs
+/dist
+/build
+
+# Test Outputs
+/tests/output/
 output.txt
