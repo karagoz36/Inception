@@ -1,5 +1,10 @@
 #!/bin/bash
 
+MYSQL_PASSWORD=$(cat /run/secrets/mysql_password)
+MYSQL_ROOT_PASSWORD=$(cat /run/secrets/mysql_root_password)
+WP_ADMIN_PASSWORD=$(cat /run/secrets/wp_admin_password)
+WP_USER_PASSWORD=$(cat /run/secrets/wp_user_password)
+
 # Wait for MariaDB to be ready
 echo "Waiting for MariaDB to be ready..."
 until mysqladmin ping -h"${MYSQL_HOSTNAME}" -u"${MYSQL_USER}" -p"${MYSQL_PASSWORD}" --silent; do

@@ -12,10 +12,7 @@ all: up
 
 # Start Docker Compose services
 up:
-	mkdir -p $(MARIADB_DATA_DIR)
-	mkdir -p $(WORDPRESS_DATA_DIR)
-	mkdir -p $(PROMETHEUS_DATA_DIR)
-	mkdir -p $(GRAFANA_DATA_DIR)
+	mkdir -p $(MARIADB_DATA_DIR) $(WORDPRESS_DATA_DIR) $(PROMETHEUS_DATA_DIR) $(GRAFANA_DATA_DIR)
 	docker compose -f $(COMPOSE_FILE) up -d --build
 
 # Stop and remove Docker Compose services

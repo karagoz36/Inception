@@ -1,0 +1,19 @@
+# Git
+.git
+.gitignore
+
+# Secrets
+secrets/
+
+# Temporary docs
+*.log
+*.tmp
+.DS_Store
+*.swp
+
+# Node.js & Python 
+srcs/bonus/node-exporter/node_modules
+srcs/requirements/wordpress/node_modules
+
+# Test
+output.txt

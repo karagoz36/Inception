@@ -22,9 +22,6 @@ RUN mkdir -p /run/php && \
 
 # Download and set up WordPress
 WORKDIR /var/www/html
-# RUN wget https://wordpress.org/latest.tar.gz && \
-#     tar -xzvf latest.tar.gz --strip-components=1 && \
-#     rm latest.tar.gz
 
 # Copy configuration files
 COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf

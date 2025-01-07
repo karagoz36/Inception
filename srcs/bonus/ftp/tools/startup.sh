@@ -1,5 +1,7 @@
 #!/bin/bash
 
+FTP_PASSWORD=$(cat /run/secrets/ftp_password)
+
 mkdir -p /var/run/vsftpd/empty /var/www/html
 
 mv /tmp/vsftpd.conf /etc/vsftpd.conf
