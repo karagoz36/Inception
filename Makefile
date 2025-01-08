@@ -37,23 +37,20 @@ restart:
 	$(MAKE) up
 
 # Show logs for all services
-logs: secret
+logs:
 	docker compose -f $(COMPOSE_FILE) logs -f
-	@$(MAKE) --no-print-directory desecret
 
 # Check status of services
-status: secret
+status:
 	docker compose -f $(COMPOSE_FILE) ps
-	@$(MAKE) --no-print-directory desecret
 
 # Show running processes in all services
-ps: secret
+ps:
 	@for service in wordpress mariadb nginx redis adminer ftp prometheus node-exporter grafana; do \
 	  echo "Processes in $$service:"; \
 	  docker compose -f $(COMPOSE_FILE) exec $$service ps aux; \
 	  echo "---------------------------------"; \
 	done
-	@$(MAKE) --no-print-directory desecret
 
 # Generate output file with tree and file contents
 out:
@@ -86,8 +83,8 @@ secret:
 
 # Remove secrets and .env files
 desecret:
-	@rm -rf ./secrets ./srcs/.env
-	@echo "Secrets and .env files removed successfully."
+	@rm -rf ./secrets
+	@echo "Secrets removed successfully."
 
 # Default command: show help
 help:
