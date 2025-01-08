@@ -2,11 +2,11 @@
 .git
 .gitignore
 
-# Secrets ve Çevresel Değişkenler
+# Secrets and Env
 secrets/
 *.env
 
-# Temporary Dosyalar
+# Temporary Docs
 **/*.log
 **/*.tmp
 .DS_Store
@@ -15,7 +15,7 @@ secrets/
 # Node.js & Python
 **/node_modules
 
-# IDE ve Editor Settings
+# IDE Docs
 .vscode/
 *.idea/
 *.sublime-project

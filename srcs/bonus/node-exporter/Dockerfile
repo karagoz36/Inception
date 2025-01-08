@@ -13,12 +13,9 @@ RUN wget https://github.com/prometheus/node_exporter/releases/download/v${NODE_E
     && mv node_exporter-${NODE_EXPORTER_VERSION}.linux-amd64/node_exporter /usr/local/bin/ \
     && rm -rf /tmp/*
 
-# İleride host /proc ve /sys gibi dizinleri bağlayacaksanız, opsiyonel bir RUN mkdir /host de olabilir
+# host /proc ve /sys directories
 
-# Varsayılan port
 EXPOSE 9100
 
-# Node Exporter ön tanımlı (varsayılan) parametrelerle başlatılsın
 ENTRYPOINT ["/usr/local/bin/node_exporter"]
-# Gerekirse parametre ekleyin: 
 # CMD ["--path.procfs=/host/proc", "--path.sysfs=/host/sys", "--web.listen-address=:9100"]

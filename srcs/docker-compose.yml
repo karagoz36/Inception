@@ -103,7 +103,6 @@ services:
     volumes:
       - wordpress_data:/var/www/html
     pull_policy: never
-    # restart: on-failure:2
 
   adminer:
     build:

@@ -1,7 +1,7 @@
 # Makefile for Inception - Docker Compose
 
 COMPOSE_FILE = ./srcs/docker-compose.yml
-DATA_DIR = ${HOME}/data
+DATA_DIR = $(HOME)/data
 MARIADB_DATA_DIR = $(DATA_DIR)/mariadb_data
 WORDPRESS_DATA_DIR = $(DATA_DIR)/wordpress_data
 PROMETHEUS_DATA_DIR = $(DATA_DIR)/prometheus_data
@@ -32,32 +32,32 @@ stop: secret
 	@$(MAKE) --no-print-directory desecret
 
 # Restart Docker Compose services
-restart:
+restart: 
 	$(MAKE) down
 	$(MAKE) up
 
 # Show logs for all services
-logs:
+logs: secret
 	docker compose -f $(COMPOSE_FILE) logs -f
+	@$(MAKE) --no-print-directory desecret
 
 # Check status of services
-status:
+status: secret
 	docker compose -f $(COMPOSE_FILE) ps
+	@$(MAKE) --no-print-directory desecret
 
 # Show running processes in all services
-ps:
+ps: secret
 	@for service in wordpress mariadb nginx redis adminer ftp prometheus node-exporter grafana; do \
 	  echo "Processes in $$service:"; \
 	  docker compose -f $(COMPOSE_FILE) exec $$service ps aux; \
 	  echo "---------------------------------"; \
 	done
+	@$(MAKE) --no-print-directory desecret
 
 # Generate output file with tree and file contents
 out:
 	@bash -c '{ tree; find . -type f \( -name ".env" -or ! -path "*/.*" \) -and ! -path "./srcs/bonus/static-website/*" -exec echo "=== {} ===" \; -exec cat {} \; ; } > output.txt'
-	# Alternatif komut yoruma alındı
-	# @bash -c '{ tree; find . -type f ! -path "*/.*" -and \( -name ".env" -or -not -path "./srcs/bonus/static-website/*" \) -exec echo "=== {} ===" \; -exec cat {} \; ; } >> output.txt'
-
 # Remove containers, volumes, and networks
 clean: secret
 	docker compose -f $(COMPOSE_FILE) down --volumes --remove-orphans
@@ -71,16 +71,16 @@ fclean:
 # Add secrets: Copy secrets and .env files
 secret:
 	@mkdir -p ./secrets
-	@if [ -d ../credentials/secrets ]; then \
-		cp -r ../credentials/secrets/* ./secrets/ || echo "Failed to copy secrets."; \
+	@if [ -d /home/tkaragoz/credentials/secrets ]; then \
+		cp -r /home/tkaragoz/credentials/secrets/* ./secrets/ || echo "Failed to copy secrets."; \
 	else \
-		echo "No secrets directory found at ../credentials/secrets."; \
+		echo "No secrets directory found at /home/tkaragoz/credentials/secrets."; \
 	fi
 	@mkdir -p ./srcs
-	@if [ -f ../credentials/.env ]; then \
-		cp ../credentials/.env ./srcs/ || echo "Failed to copy .env file."; \
+	@if [ -f /home/tkaragoz/credentials/.env ]; then \
+		cp /home/tkaragoz/credentials/.env ./srcs/ || echo "Failed to copy .env file."; \
 	else \
-		echo "No .env file found at ../credentials/.env."; \
+		echo "No .env file found at /home/tkaragoz/credentials/.env."; \
 	fi
 	@echo "Secrets copied successfully."
 

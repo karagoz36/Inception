@@ -8,7 +8,7 @@ RUN apt-get update && \
 
 WORKDIR /tmp
 
-# Prometheus tar.gz indir ve kur
+# Download and Install Prometheus
 RUN wget https://github.com/prometheus/prometheus/releases/download/v${PROMETHEUS_VERSION}/prometheus-${PROMETHEUS_VERSION}.linux-amd64.tar.gz \
     && tar xfz prometheus-${PROMETHEUS_VERSION}.linux-amd64.tar.gz \
     && mkdir -p /etc/prometheus \
@@ -18,7 +18,6 @@ RUN wget https://github.com/prometheus/prometheus/releases/download/v${PROMETHEU
     && mv prometheus-${PROMETHEUS_VERSION}.linux-amd64/console_libraries /etc/prometheus/ \
     && rm -rf /tmp/*
 
-# Prometheus config dosyamızı kopyalıyoruz
 COPY conf/prometheus.yml /etc/prometheus/prometheus.yml
 
 EXPOSE 9090
