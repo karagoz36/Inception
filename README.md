@@ -71,10 +71,10 @@ Add the following line at the end of the file:
 Make sure your **server_name** directive in the Nginx configuration file reflects the same domain names:
 ```nginx
 server_name tkaragoz.42.fr
-			adminer.tkaragoz.42.fr
-			prometheus.tkaragoz.42.fr
-			grafana.tkaragoz.42.fr
-			tkaragoz.42.fr/static/;
+adminer.tkaragoz.42.fr
+prometheus.tkaragoz.42.fr
+grafana.tkaragoz.42.fr
+tkaragoz.42.fr/static/;
 ```
 
 # 5. Build and start the services
