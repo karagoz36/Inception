@@ -58,15 +58,36 @@ cd inception
 cp srcs/.env.example srcs/.env  # Copy environment variables
 nano srcs/.env                   # Edit if necessary
 
-# 3. Build and start the services
+# 3. Configure the local domain name
+sudo nano /etc/hosts
+```
+
+Add the following line at the end of the file:
+```sh
+127.0.0.1 tkaragoz.42.fr adminer.tkaragoz.42.fr prometheus.tkaragoz.42.fr grafana.tkaragoz.42.fr tkaragoz.42.fr/static/
+```
+
+# 4. Update Nginx configuration
+Make sure your **server_name** directive in the Nginx configuration file reflects the same domain names:
+```nginx
+server_name tkaragoz.42.fr
+			adminer.tkaragoz.42.fr
+			prometheus.tkaragoz.42.fr
+			grafana.tkaragoz.42.fr
+			tkaragoz.42.fr/static/;
+```
+
+# 5. Build and start the services
+```sh
 make up
 ```
 
 Once the services are running, you can access:
-- **WordPress** at **http://localhost**
-- **Adminer** at **http://localhost:8080**
-- **Grafana** at **http://localhost:3000**
-- **Static Website** at **http://localhost:8081**
+- **WordPress** at **http://tkaragoz.42.fr**
+- **Adminer** at **http://adminer.tkaragoz.42.fr**
+- **Grafana** at **http://grafana.tkaragoz.42.fr**
+- **Prometheus** at **http://prometheus.tkaragoz.42.fr**
+- **Static Website** at **http://tkaragoz.42.fr/static/**
 
 ## 📜 Available Commands
 
@@ -112,6 +133,7 @@ Through this project, you will gain in-depth knowledge on:
 - **Monitoring Services (Grafana, Prometheus, Node Exporter)**
 - **Hosting a Static Website in a Container**
 - **Using Docker Secrets for Secure Credentials Management**
+- **Local Domain Name Configuration with /etc/hosts**
 
 ## 📖 Resources
 
